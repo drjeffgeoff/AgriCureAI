@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Disease Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+        integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poetsen+One&display=swap" rel="stylesheet">
+
+        <style>
+            * {
+                margin: 0px;
+                padding: 0px;
+                font-family: Arial, sans-serif;
+                font-weight: 400;
+                font-style: normal;
+
+            }
+    
+            .card-style {
+                background-color: #dcdcdc;
+    
+            }
+    
+            .content {
+                padding: 15px;
+                color: white;
+                background-color: rgb(153, 156, 150);
+                /* font-size: 1rem; */
+            }
+    
+            @media (max-width: 430px) and (min-width: 200px) {
+    
+    
+                .content {
+                    font-size: 0.6rem;
+                    color: chartreuse;
+                }
+    
+                .content-h1 {
+    
+                    font-size: 1rem;
+                }
+            }
+    
+            .border img {
+                border-radius: 15px;
+                border: 2px solid black;
+                width: 27vw;  
+            }
+        </style>
+</head>
+<body>
+    <div class="container my-2">
+        <h1  style="padding: 15px; background-color:rgb(1, 79, 93); color: white;  font-family: Poetsen One, sans-serif;
+        font-weight: 900;
+        font-style: normal;"
+        class="text-center my-3 content-h1" >Prediction Result</h1>
+        <div class="row mb-5">
+    
+                <div class="col-sm" style="margin-bottom: 23px;">
+                    <span class="border border-primary">
+                        <img src="{{ image_url }}" alt="Uploaded Image" >
+    
+    
+                    </span>
+                </div>
+    
+                <div class="col-sm">
+    
+                    <div>
+                        <h1 style="padding: 15px; background-color: rgb(123, 145, 164); color: white;"
+                            class="text-center mb-4 content-h1 rounded">
+                           {{predicted_class}}                            
+                        </h1>   
+                        <h4 class="m-0" style="padding: 5px; background-color: rgb(136, 164, 189); color: white;">Accuracy Score: {{ confidence_format }} </h4> 
+                    </div>
+                    {% if disease %}
+                    <h2>Disease Name:  {{ disease }}</h2>
+                    <h5 style="line-height: 100%;"> {{ text }} </h5>
+                    <hr class="w-100 mx-auto ">
+                    {% else %}
+                    <h2 style="line-height: 100%;">This crop is healthy. It's a healthy leaf image.</h2>
+                    {% endif %}                    
+                </div>
+    
+    <br>
+    <div>
+    <h1 class="text-center  content-h1 rounded" style="padding: 9px; background-color: rgb(90, 118, 120); color: white;">
+        {% if disease %} 
+        Solution for {{ disease }} Disease: 
+        {% else %}
+        Solution for {{ predicted_class }}: 
+        {% endif %}
+
+    
+    </h1>
+    <p> 
+      <strong>{{ solution }}</strong>    &nbsp;
+    </p>
+    <p>
+        <strong>{{ prevention }}</strong>
+
+    </p>
+
+   </div>
+    
+</div>
+    
+    
+      <section>
+        {% if disease %} 
+
+    
+            <div class="container">
+                <h1 style="padding: 12px; background-color: rgb(1, 79, 93); color: white;"
+                    class="text-center my-2 content-h1">
+                    Recommended Natural treatments for crop diseases </h1>
+            </div>
+    
+            <div class="container">
+    
+                {% if medicine_products %}
+
+                <div class="card-columns">
+                    {% for product in medicine_products %}
+
+                    <div class="card ">
+                        <div class="card-body text-center card-style">
+                            <img style="border-radius: 10px; max-height: 250px;" class="img-fluid" src="{% static product.image %}" alt="{{ product.name }}">
+                            
+                            <h3 class="card-text"> {{ product.name }}</h3>
+                            <h3 class="card-text">Dose: 60-80 gm/Acre</h3>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+
+    
+                </div>
+                {% endif %}
+
+                          
+    
+    
+               
+            </div>
+
+        {% else %}
+
+
+        <div class="container">
+            <h1 style="padding: 12px; background-color: rgb(1, 79, 93); color: white;"
+                class="text-center my-2 content-h1">
+                No Recommended Products</h1>
+        </div>
+
+
+        {% endif %}
+    
+        </section>
+    
+    
+    
+
+
+        <h1 style="padding: 12px; background-color: rgb(1, 79, 93); color: white;"
+        class="text-center my-2 content-h1">
+               <a style=" color: white;" href="{% url 'home' %}">Upload Another Image To Predict</a>
+
+        </h1>
+        <br>
+    
+        <section>
+            <div class="container Content-h5">
+              <h4 style="font-size: 1rem" class="text-center my-3 contents">
+                © 2024 Seed Crop Disease Prediction Platform
+              </h4>
+            </div>
+          </section>
+</body>
+</html>
